@@ -1,6 +1,7 @@
 $primary-color: white;
 $bg: black;
-h1 {
-  color: $primary-color;
-  background-color: $bg;
+.time {
+    width: 100%;
+    text-align: center;
+    font-size: 6em;
 }
