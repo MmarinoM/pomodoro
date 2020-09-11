@@ -5,3 +5,10 @@ $bg: black;
     text-align: center;
     font-size: 6em;
 }
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}

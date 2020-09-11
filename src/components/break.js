@@ -1,60 +1,48 @@
-import {Card, Button, ButtonGroup} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import React, {useState} from "react";
 
-const BreakTime = (props) => {
-    const [timer, seTimer] = useState(props.breakSession);
-    function displaytimer() {
-        const seconds = timer % 60;
-        const minutes = parseInt(timer / 60) % 60;
+const Breaktime = (props) => {
+    const [breakTime] = useState(props.breakSession);
+    // BOOTSTRAP MODAL
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    //
+
+    function displaybreak() {
+        const seconds = breakTime % 60;
+        const minutes = parseInt(breakTime / 60) % 60;
         function addLeadingZeroes(time) {
             return time < 10 ? `0${time}` : time;
         }
         return `${addLeadingZeroes(minutes)}:${addLeadingZeroes(seconds)}`;
     }
-    function resetTimer() {
-        seTimer(props.breakSession);
-    }
+
     return (
-        <div className={"w-100 d-flex flex-column align-items-center"}>
-            <Card className={"bg-success mb-3 w-50"}>
-                <Card.Body>
-                    <div className={"d-flex flex-column align-items-center"}>
-                        <p className={"time"}>{displaytimer()}</p>
-                        <ButtonGroup className={"w-50"}>
-                            <Button
-                                className={"btn btn-info"}
-                                onClick={() => {
-                                    seTimer(timer + 60);
-                                }}>
-                                {"+"}
-                            </Button>
-                            <Button className={"btn btn-success"}>
-                                {"START"}
-                            </Button>
-                            <Button
-                                className={"btn btn-danger"}
-                                onClick={() => {
-                                    resetTimer(timer + 60);
-                                }}>
-                                {"RESET"}
-                            </Button>
-                            <Button
-                                className={"btn btn-info"}
-                                onClick={() => {
-                                    seTimer(timer - 60);
-                                }}>
-                                {"-"}
-                            </Button>
-                        </ButtonGroup>
-                    </div>
-                </Card.Body>
-            </Card>
-        </div>
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header className={"bg-success"} closeButton>
+                <Modal.Title>{"BREAK TIME"}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className={"bg-success time"}>
+                {displaybreak()}
+            </Modal.Body>
+            <Modal.Footer className={"bg-success"}>
+                <Button variant={"danger"} onClick={handleClose}>
+                    {"Close"}
+                </Button>
+                <Button variant={"warning"} onClick={handleClose}>
+                    {"Save Changes"}
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 };
 
-BreakTime.defaultProps = {
+Breaktime.defaultProps = {
+    //in seconds = 25 mins - 1500
+    workingSession: 5,
+
     //in seconds = 5 min - 300s
     breakSession: 300,
 };
-export default BreakTime;
+export default Breaktime;
