@@ -1,12 +1,12 @@
 import {Button, Modal} from "react-bootstrap";
 import React, {useState} from "react";
 
-const Breaktime = (props) => {
+const Breaktime = props => {
     const [breakTime] = useState(props.breakSession);
     // BOOTSTRAP MODAL
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(props.show);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // const handleShow = () => setShow(true);
     //
 
     function displaybreak() {

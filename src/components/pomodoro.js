@@ -1,9 +1,10 @@
-import {Card, Button, ButtonGroup, Modal} from "react-bootstrap";
+import {Card, Button, ButtonGroup} from "react-bootstrap";
 import React, {useState, useEffect} from "react";
 import Breaktime from "./break";
 
-const Pomodoro = (props) => {
+const Pomodoro = props => {
     const [timer, seTimer] = useState(props.workingSession);
+    const [changeShow, setChangeShow] = useState(false);
     // const [breakTime, setBreaktime] = useState(props.breakSession);
     const [isRunning, setRunningState] = useState(false);
     // BOOTSTRAP MODAL
@@ -16,7 +17,7 @@ const Pomodoro = (props) => {
         let interval;
         if (isRunning) {
             interval = setInterval(() => {
-                seTimer((prevTimer) => prevTimer - 1);
+                seTimer(prevTimer => prevTimer - 1);
             }, 1000);
         }
         return () => clearInterval(interval);
@@ -43,6 +44,7 @@ const Pomodoro = (props) => {
         if (timer <= 0 && isRunning) {
             document.title = "NIQUE TA MERE";
             setRunningState(false);
+            setChangeShow(true);
         } else {
             document.title = displaytimer();
         }
@@ -113,7 +115,7 @@ const Pomodoro = (props) => {
                     </Button>
                 </Modal.Footer>
             </Modal> */}
-            <Breaktime />
+            <Breaktime show={changeShow} />
         </div>
     );
 };
