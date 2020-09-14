@@ -2,22 +2,17 @@ import {Card, Button, ButtonGroup} from "react-bootstrap";
 import React, {useState, useEffect} from "react";
 import Breaktime from "./break";
 
-const Pomodoro = (props) => {
+const Pomodoro = props => {
     const [timer, seTimer] = useState(props.workingSession);
     const [changeShow, setChangeShow] = useState(false);
-    // const [breakTime, setBreaktime] = useState(props.breakSession);
     const [isRunning, setRunningState] = useState(false);
-    // BOOTSTRAP MODAL
-    // const [show, setShow] = useState(false);
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
-    //
+
     // *! décompte des secondes
     useEffect(() => {
         let interval;
         if (isRunning) {
             interval = setInterval(() => {
-                seTimer((prevTimer) => prevTimer - 1);
+                seTimer(prevTimer => prevTimer - 1);
             }, 1000);
         }
         return () => clearInterval(interval);
@@ -31,24 +26,14 @@ const Pomodoro = (props) => {
         }
         return `${addLeadingZeroes(minutes)}:${addLeadingZeroes(seconds)}`;
     }
-    // function displaybreak() {
-    //     const seconds = breakTime % 60;
-    //     const minutes = parseInt(breakTime / 60) % 60;
-    //     function addLeadingZeroes(time) {
-    //         return time < 10 ? `0${time}` : time;
-    //     }
-    //     return `${addLeadingZeroes(minutes)}:${addLeadingZeroes(seconds)}`;
-    // }
-    // *! Script fin de décompte + affichage du décompte dans title
+
     useEffect(() => {
         if (timer <= 0 && isRunning) {
-            document.title = "NIQUE TA MERE";
+            document.title = "Break Time";
             setRunningState(false);
-            console.log(changeShow);
             setChangeShow(!changeShow);
-            console.log(changeShow);
         } else {
-            document.title = displaytimer();
+            document.title = `WT - ${displaytimer()}`;
         }
     }, [timer]);
     // *! Nom de la fonction assez explicite
@@ -57,18 +42,16 @@ const Pomodoro = (props) => {
     }
     return (
         <div className={"w-100 d-flex flex-column align-items-center"}>
-            <Card className={"bg-warning mb-3 w-50"}>
+            <Card className={"bg-warning mb-3 w-50 mt-5"}>
                 <Card.Body>
                     <div className={"d-flex flex-column align-items-center"}>
                         <p className={"time"}>{displaytimer()}</p>
-                        <ButtonGroup className={"w-50"}>
+                        <ButtonGroup className={"w-100"}>
                             <Button
                                 className={"btn btn-info"}
                                 disabled={isRunning}
                                 onClick={() => {
                                     seTimer(timer + 60);
-                                    setChangeShow(!changeShow);
-                                    console.log(changeShow);
                                 }}>
                                 {"+"}
                             </Button>
@@ -85,6 +68,7 @@ const Pomodoro = (props) => {
                                 onClick={() => {
                                     resetTimer();
                                     setRunningState(false);
+                                    setChangeShow(false);
                                 }}>
                                 {"RESET"}
                             </Button>
@@ -102,24 +86,7 @@ const Pomodoro = (props) => {
                     </div>
                 </Card.Body>
             </Card>
-
-            {/* <Modal show={show} onHide={handleClose}>
-                <Modal.Header className={"bg-success"} closeButton>
-                    <Modal.Title>{"BREAK TIME"}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className={"bg-success time"}>
-                    {displaybreak()}
-                </Modal.Body>
-                <Modal.Footer className={"bg-success"}>
-                    <Button variant={"danger"} onClick={handleClose}>
-                        {"Close"}
-                    </Button>
-                    <Button variant={"warning"} onClick={handleClose}>
-                        {"Save Changes"}
-                    </Button>
-                </Modal.Footer>
-            </Modal> */}
-            <Breaktime show={changeShow} />
+            <Breaktime show={changeShow} breakSession={props.breakSession} />
         </div>
     );
 };
@@ -129,6 +96,6 @@ Pomodoro.defaultProps = {
     workingSession: 5,
 
     //in seconds = 5 min - 300s
-    // breakSession: 300,
+    breakSession: 5,
 };
 export default Pomodoro;
