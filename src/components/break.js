@@ -57,7 +57,7 @@ const Breaktime = props => {
                 <Modal.Title>{"BREAK TIME"}</Modal.Title>
             </Modal.Header>
             <Modal.Body className={"bg-success time"}>
-                {displaybreak()}
+                {breakTime <= 0 ? "FINISHED" : displaybreak()}
             </Modal.Body>
             <Modal.Footer className={"bg-success"}>
                 <Button
