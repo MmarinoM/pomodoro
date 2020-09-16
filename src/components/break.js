@@ -1,9 +1,10 @@
 import {Button, Modal} from "react-bootstrap";
 import React, {useState, useEffect} from "react";
 
-const Breaktime = props => {
+const Breaktime = (props) => {
     const [breakTime, setBreakTime] = useState(props.breakSession);
     const [isRunning, setRunningState] = useState(true);
+    // const [restart, setRestart] = useState(false);
     // BOOTSTRAP MODAL
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -18,18 +19,24 @@ const Breaktime = props => {
         }
         return `${addLeadingZeroes(minutes)}:${addLeadingZeroes(seconds)}`;
     }
-    // *! décompte en seconde du BreakTime
+    // TODO décompte en seconde du BreakTime
     useEffect(() => {
         let interval;
         if (show === true) {
             if (isRunning) {
                 interval = setInterval(() => {
-                    setBreakTime(prevTimer => prevTimer - 1);
+                    setBreakTime((prevTimer) => prevTimer - 1);
                 }, 1000);
             }
         }
         return () => clearInterval(interval);
     }, [show, isRunning]);
+
+    // TODO changement du temps de BREAK
+    useEffect(() => {
+        setBreakTime(props.breakSession);
+    }, [props.breakSession]);
+
     useEffect(() => {
         if (breakTime <= 0) {
             setRunningState(false);
@@ -38,7 +45,8 @@ const Breaktime = props => {
             document.title = `BT - ${displaybreak()}`;
         }
     });
-    // *! affichage du modal
+
+    // TODO affichage du modal
     useEffect(() => {
         if (props.show === true) {
             setShow(props.show);
@@ -61,12 +69,16 @@ const Breaktime = props => {
             </Modal.Body>
             <Modal.Footer className={"bg-success"}>
                 <Button
-                    variant={"warning"}
+                    variant={"info"}
                     disabled={breakTime <= 0}
                     onClick={() => {
                         setRunningState(!isRunning);
                     }}>
-                    {isRunning ? "PAUSE" : "PLAY"}
+                    {isRunning ? (
+                        <i className={"fas fa-pause"}></i>
+                    ) : (
+                        <i className={"fas fa-play"}></i>
+                    )}
                 </Button>
                 <Button
                     variant={"danger"}
@@ -83,6 +95,9 @@ const Breaktime = props => {
                         handleClose();
                         setBreakTime(props.breakSession);
                         setRunningState(!isRunning);
+                        props.reset();
+                        props.replay(!isRunning);
+                        props.hideModal(false);
                     }}>
                     {"Keep Working"}
                 </Button>
@@ -93,9 +108,9 @@ const Breaktime = props => {
 
 Breaktime.defaultProps = {
     //in seconds = 25 mins - 1500
-    workingSession: 5,
-
+    // workingSession: 5,
     //in seconds = 5 min - 300s
-    breakSession: 5,
+    // breakSession: 5,
 };
+
 export default Breaktime;

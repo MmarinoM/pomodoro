@@ -1,9 +1,13 @@
 $primary-color: white;
 $bg: black;
 .time {
-    width: 100%;
+    // width: 100%;
     text-align: center;
     font-size: 6em;
+}
+.break {
+    text-align: center;
+    font-size: 2.5em;
 }
 .modal-header {
     border-bottom: none;
