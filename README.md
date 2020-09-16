@@ -19,4 +19,3 @@ Here's the link to my project on Netlify: [React Pomodoro](https://pomarino.netl
 -   The project's structure was created with [createapp.dev](https://createapp.dev/ "createapp.dev").
 -   For the font and the icons, I used respectively Google Fonts and Font Awesome.
 -   For the CSS I used Bootstrap & Bootwatch .
--   [Michael Marino](https://github.com/MmarinoM "Michael Marino") helped me with the code and the design.
