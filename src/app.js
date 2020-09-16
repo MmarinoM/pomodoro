@@ -1,7 +1,7 @@
 // eslint-disable-next-line unicorn/filename-case
 import React from "react";
 import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootswatch/dist/darkly/bootstrap.min.css";
 import {Container, Row, Col} from "react-bootstrap";
 import Pomodoro from "./components/pomodoro";
 
