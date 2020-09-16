@@ -2,7 +2,8 @@
 coverage/
 dist/*
 !dist/index.html
-node_modules/
+node_modules/*
+!node_modules/bootstrap
 *.log
 
 # OS generated files
