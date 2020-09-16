@@ -1,6 +1,9 @@
 import {Card, Button, ButtonGroup, Alert} from "react-bootstrap";
 import React, {useState, useEffect} from "react";
 import Breaktime from "./break";
+import click from "../audio/click.mp3";
+import ding from "../audio/ding.mp3";
+import tick from "../audio/tick.mp3";
 
 const Pomodoro = (props) => {
     const [timer, seTimer] = useState(props.workingSession);
@@ -27,6 +30,11 @@ const Pomodoro = (props) => {
         }
         return `${addLeadingZeroes(minutes)}:${addLeadingZeroes(seconds)}`;
     }
+    function playSound(sound, volume = 0.3) {
+        const sfx = new Audio(sound);
+        sfx.volume = volume;
+        sfx.play();
+    }
     // TODO Nom de la fonction assez explicite
     function resetTimer() {
         seTimer(props.workingSession);
@@ -37,8 +45,12 @@ const Pomodoro = (props) => {
             document.title = "Break Time";
             setRunningState(false);
             setChangeShow(!changeShow);
+            playSound(ding);
         } else {
             document.title = `WT - ${displaytimer(timer)}`;
+        }
+        if (isRunning && timer <= 5 && timer > 0) {
+            playSound(tick, 0.2);
         }
     }, [timer]);
 
@@ -57,6 +69,7 @@ const Pomodoro = (props) => {
                                 disabled={isRunning}
                                 onClick={() => {
                                     seTimer(timer + 60);
+                                    playSound(click);
                                 }}>
                                 {<i class="fas fa-plus"></i>}
                             </Button>
@@ -65,6 +78,7 @@ const Pomodoro = (props) => {
                                 disabled={timer <= 0}
                                 onClick={() => {
                                     setRunningState(!isRunning);
+                                    playSound(click);
                                 }}>
                                 {isRunning ? (
                                     <i className={"fas fa-pause"}></i>
@@ -78,6 +92,7 @@ const Pomodoro = (props) => {
                                     resetTimer();
                                     setRunningState(false);
                                     setChangeShow(false);
+                                    playSound(click);
                                 }}>
                                 {<i class="fas fa-undo-alt"></i>}
                             </Button>
@@ -88,6 +103,7 @@ const Pomodoro = (props) => {
                                 }
                                 onClick={() => {
                                     seTimer(timer - 60);
+                                    playSound(click);
                                 }}>
                                 {<i class="fas fa-minus"></i>}
                             </Button>
@@ -106,6 +122,7 @@ const Pomodoro = (props) => {
                             className={"btn btn-info"}
                             disabled={isRunning}
                             onClick={() => {
+                                playSound(click);
                                 setBreakChoice(breakChoice + 60);
                             }}>
                             {"+"}
@@ -116,6 +133,7 @@ const Pomodoro = (props) => {
                                 parseInt(breakChoice / 60) % 60 === 0
                             }
                             onClick={() => {
+                                playSound(click);
                                 setBreakChoice(breakChoice - 60);
                             }}>
                             {"-"}
@@ -136,7 +154,7 @@ const Pomodoro = (props) => {
 
 Pomodoro.defaultProps = {
     //in seconds = 25 mins - 1500
-    workingSession: 1500,
+    workingSession: 10,
 
     //in seconds = 5 min - 300s
     breakSession: 300,
