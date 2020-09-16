@@ -154,7 +154,7 @@ const Pomodoro = (props) => {
 
 Pomodoro.defaultProps = {
     //in seconds = 25 mins - 1500
-    workingSession: 10,
+    workingSession: 1500,
 
     //in seconds = 5 min - 300s
     breakSession: 300,
